@@ -38,4 +38,11 @@ function submit() { if (state.submitted) { $('successModal').classList.remove('h
 ['applicant', 'personId', 'phone', 'summary', 'amount', 'project'].forEach(id => $(id).addEventListener(id === 'project' ? 'change' : 'input', () => { $(`error-${id}`).textContent = ''; if (id === 'amount') renderMaterials(); else updateSummary(); }));
 $('changeType').onclick = openTypeModal; $('backButton').onclick = openTypeModal; $('breadcrumbHome').onclick = openTypeModal; $('closeType').onclick = $('cancelType').onclick = () => $('typeModal').classList.add('hidden'); $('typeModal').onclick = event => { if (event.target === $('typeModal')) $('typeModal').classList.add('hidden'); }; $('submitButton').onclick = submit; $('doneButton').onclick = () => { $('successModal').classList.add('hidden'); toast('申请已提交，状态：待材料审核'); }; document.addEventListener('keydown', event => { if (event.key === 'Escape') $('typeModal').classList.add('hidden'); });
 renderType();
+$('materialList').addEventListener('click', event => {
+  const button = event.target.closest?.('[data-delete]');
+  if (button && !window.confirm('确定删除这份附件吗？')) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+}, true);
 
