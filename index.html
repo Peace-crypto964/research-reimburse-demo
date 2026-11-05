@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新建报销申请 · 科研课题组报销协同管理系统</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar"><div class="brand"><span class="brand-mark">研</span><span>科研课题组报销协同管理系统</span></div><div class="topbar-links"><span class="topbar-tag">申请端 · 原型演示</span><a href="admin.html">管理员工作台 →</a></div></header>
+    <main class="page hidden" id="formView">
+      <nav class="breadcrumb" aria-label="当前位置"><button type="button" id="breadcrumbHome">报销申请</button><span>/</span><span>新建报销申请</span></nav>
+      <div class="page-heading"><div><h1>新建报销申请</h1><p>填写报销信息并上传对应材料，提交后进入材料审核。</p></div><span class="demo-badge">演示页面</span></div>
+      <div class="steps" aria-label="申请步骤"><div class="step done"><span class="step-no">✓</span><span>选择报销类型</span></div><span class="step-line"></span><div class="step active"><span class="step-no">2</span><span>填写信息及上传材料</span></div><span class="step-line"></span><div class="step"><span class="step-no">3</span><span>提交申请</span></div></div>
+      <div class="content-grid">
+        <div class="main-column">
+          <section class="card type-card"><div class="section-heading"><div><span class="section-index">01</span><h2>报销类型</h2></div><button class="text-button" type="button" id="changeType">修改类型 <span aria-hidden="true">›</span></button></div><div class="selected-type"><span class="type-icon" aria-hidden="true">▦</span><div><strong id="typeName"></strong><p id="typeDescription"></p></div></div></section>
+          <section class="card"><div class="section-heading"><div><span class="section-index">02</span><h2>申请人基本信息</h2></div></div><div class="form-grid"><label class="field"><span>申请人姓名 <b>*</b></span><input id="applicant" autocomplete="name" placeholder="请输入申请人姓名"><small class="error" id="error-applicant"></small></label><label class="field"><span>学号 / 工号 <b>*</b></span><input id="personId" placeholder="请输入学号或工号"><small class="error" id="error-personId"></small></label><label class="field"><span>联系电话 <b>*</b></span><input id="phone" inputmode="tel" autocomplete="tel" placeholder="请输入联系电话"><small class="error" id="error-phone"></small></label></div></section>
+          <section class="card"><div class="section-heading"><div><span class="section-index">03</span><h2>报销信息</h2></div></div><div class="form-grid"><label class="field full"><span>报销摘要 <b>*</b></span><input id="summary" maxlength="100" placeholder="简要说明本次报销事项"><small class="error" id="error-summary"></small></label><label class="field"><span>报销金额 <b>*</b></span><div class="money-input"><span>¥</span><input id="amount" type="number" min="0.01" step="0.01" placeholder="0.00"></div><small class="error" id="error-amount"></small></label><label class="field"><span>所属科研项目 <b>*</b></span><select id="project"><option value="">请选择科研项目</option><option value="proj-01">智能感知与数据分析研究</option><option value="proj-02">先进材料实验研究</option><option value="proj-03">科研方法与应用探索</option></select><small class="error" id="error-project"></small></label></div></section>
+          <section class="card materials-card"><div class="section-heading"><div><span class="section-index">04</span><h2>材料清单及附件上传</h2></div><span class="section-note">支持 PDF、JPG、PNG；单个文件不超过 20 MB</span></div><div class="material-legend"><span><i class="dot required-dot"></i>必需</span><span><i class="dot conditional-dot"></i>条件性</span><span><i class="dot optional-dot"></i>可选</span></div><div id="conditions" class="conditions"></div><div id="materialList" class="material-list"></div><div id="materialError" class="material-error" role="alert"></div></section>
+          <div class="paper-note">纸质原件请按学校要求线下提交。电子材料上传不代表纸质件已交接；具体材料与交付要求以学校财务处最新规定为准。</div><div class="bottom-actions"><button type="button" class="button secondary" id="backButton">返回上一步</button><button type="button" class="button primary" id="submitButton">提交报销申请</button></div>
+        </div>
+        <aside class="side-column"><section class="card summary-card"><h2>申请摘要</h2><div class="summary-row"><span>报销类型</span><strong id="sideType">—</strong></div><div class="summary-row"><span>所属项目</span><strong id="sideProject">未选择</strong></div><div class="summary-divider"></div><span class="summary-label">申请金额</span><div class="summary-amount" id="sideAmount">¥ 0.00</div><div class="summary-divider"></div><div class="progress-heading"><span>材料上传进度</span><strong id="progressText">0 / 0</strong></div><div class="progress-track"><div id="progressBar"></div></div><p class="progress-note" id="progressNote">请上传必需材料</p></section><section class="card notice-card"><h2>上传须知</h2><ul><li>每类材料可上传多个文件。</li><li>支持 PDF、JPG、PNG 格式，单个文件不超过 20 MB。</li><li>选择适用的业务条件后，请上传对应材料。</li><li>本页材料配置仅用于原型演示，不代表学校正式财务规则。</li></ul></section></aside>
+      </div>
+    </main>
+    <main class="page hidden" id="listView"></main>
+    <main class="page hidden" id="selectView"></main>
+    <main class="page hidden" id="detailView"></main>
+  </div>
+  <div class="modal-backdrop hidden" id="typeModal" role="dialog" aria-modal="true" aria-labelledby="typeModalTitle"><div class="modal type-modal"><div class="modal-header"><h2 id="typeModalTitle">选择报销类型</h2><button type="button" class="icon-button" id="closeType" aria-label="关闭">×</button></div><p class="modal-intro">切换类型后，已上传的材料将清空；已填写的申请信息会保留。“进口设备购置费”在小程序中暂无报销入口，暂不能提交。</p><div id="typeOptions" class="type-options"></div><div class="modal-actions"><button type="button" class="button secondary" id="cancelType">取消</button></div></div></div>
+  <div class="modal-backdrop hidden" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle"><div class="modal success-modal"><div class="success-icon">✓</div><h2 id="successTitle">报销申请提交成功</h2><p>申请已进入材料审核，请记录申请编号。</p><div class="success-detail"><div><span>申请编号</span><strong id="applicationNo"></strong></div><div><span>当前状态</span><strong class="status-pill">待材料审核</strong></div></div><button type="button" class="button primary" id="doneButton">完成</button></div></div>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="official-rules.js"></script>
+  <script src="script.js"></script>
+  <script src="student.js"></script>
+</body>
+</html>
+
